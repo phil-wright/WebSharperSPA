@@ -44,7 +44,6 @@ module Client =
         IndexTemplate.Main()
             .ListContainer(
                 People.View.DocSeqCached (fun (person : Person) ->
-                //ListModel.View People |> Doc.BindSeqCached (fun person ->
                     IndexTemplate.ListItem()
                         .Name(person.Name)
                         .Delete(fun _ -> People.RemoveByKey person.Name)
