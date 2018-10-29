@@ -15,28 +15,28 @@
     <script type="text/javascript" src="Content/WebSharperSPA.head.js"></script>
 </head>
 <body>
-    <h1>Users</h1>
+    <h1>Users 29/10/18</h1>
     <div id="main" ws-children-template="Main">
         <ul ws-hole="ListContainer">
             <li ws-template="ListItem">
-                ${Name}
-                <button type="button" ws-onclick="Delete">X</button>
+                ${Name} ${Created}
+                <button id="delete" type="button" ws-onclick="Delete">X</button>
             </li>
         </ul>
         <div>
             <div>
-                <input ws-var="Name" placeholder="Name" />
+                <input id="Name" ws-var="Name" placeholder="Name" />
                 <span ws-attr="AttrTick">✔️</span>
                 <span ws-attr="AttrCross">❌</span>
                 <b ws-attr="AttrNameMessage">Name already used</b>
                 <p>You are about to add: ${Name}</p>
             </div>
             <div>
-                <button ws-attr="AttrAdd" ws-onclick="Add">Add</button>
+                <button id="Add" ws-attr="AttrAdd" ws-onclick="Add">Add</button>
             </div>
             <br />
             <div>
-                <input type="checkbox" ws-var="Checkbox" />
+                <input id="checkbox" type="checkbox" ws-var="Checkbox" />
                 Status: <b>${CheckboxStatus}</b>
             </div>
         </div>

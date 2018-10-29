@@ -348,7 +348,7 @@ if (!console) {
 (function()
 {
  "use strict";
- var Global,WebSharperSPA,Client,WebSharper,Obj,UI,ListModel,Var,View,Operators,Unchecked,System,Guid,List,T,Person,Arrays,Templating,Runtime,Server,Handler,TemplateInstance,WebSharperSPA_Templates,AttrModule,SC$1,Strings,ConcreteVar,Snap,Collections,Dictionary,HashSet,Client$1,Seq,JavaScript,Pervasives,Attrs,DomUtility,Client$2,Templates,Doc,Object,JSModule,Abbrev,Fresh,DictionaryUtil,Enumerator,T$1,AttrProxy,DynamicAttrNode,EventTarget,Node,Numeric,Storage,SC$2,SC$3,Docs,ArrayStorage,SC$4,DocElemNode,CharacterData,Elt,Prepare,Slice,KeyCollection,An,Settings,Mailbox,HashSetUtil,Array,Attrs$1,Dyn,CheckedInput,Updates,Queue,Docs$1,RunState,NodeSet,Anims,SC$5,String,SC$6,Concurrency,AppendList,Char,SC$7,Easing,AsyncBody,SC$8,CT,HashSet$1,Scheduler,CancellationTokenSource,DomNodes,OperationCanceledException,SC$9,Lazy,LazyExtensionsProxy,LazyRecord,IntelliFactory,Runtime$1,Math,console,$,Date;
+ var Global,WebSharperSPA,Client,WebSharper,Obj,UI,ListModel,Var,View,Operators,Unchecked,System,Guid,List,T,Person,Arrays,Templating,Runtime,Server,Handler,TemplateInstance,WebSharperSPA_Templates,AttrModule,SC$1,Strings,ConcreteVar,Snap,Collections,Dictionary,HashSet,Client$1,Seq,JavaScript,Pervasives,Attrs,DomUtility,Client$2,Templates,Doc,Object,JSModule,Abbrev,Fresh,DictionaryUtil,Enumerator,T$1,AttrProxy,DynamicAttrNode,EventTarget,Node,Numeric,Storage,SC$2,SC$3,Docs,ArrayStorage,SC$4,DocElemNode,CharacterData,Elt,Prepare,Slice,KeyCollection,An,Settings,Mailbox,HashSetUtil,Array,Attrs$1,Dyn,CheckedInput,Updates,Queue,Docs$1,RunState,NodeSet,Anims,SC$5,String,SC$6,Concurrency,AppendList,Char,SC$7,Easing,AsyncBody,SC$8,CT,HashSet$1,Scheduler,CancellationTokenSource,DomNodes,OperationCanceledException,SC$9,Lazy,LazyExtensionsProxy,LazyRecord,Date,IntelliFactory,Runtime$1,Math,console,$;
  Global=window;
  WebSharperSPA=Global.WebSharperSPA=Global.WebSharperSPA||{};
  Client=WebSharperSPA.Client=WebSharperSPA.Client||{};
@@ -447,12 +447,12 @@ if (!console) {
  Lazy=WebSharper.Lazy=WebSharper.Lazy||{};
  LazyExtensionsProxy=WebSharper.LazyExtensionsProxy=WebSharper.LazyExtensionsProxy||{};
  LazyRecord=LazyExtensionsProxy.LazyRecord=LazyExtensionsProxy.LazyRecord||{};
+ Date=Global.Date;
  IntelliFactory=Global.IntelliFactory;
  Runtime$1=IntelliFactory&&IntelliFactory.Runtime;
  Math=Global.Math;
  console=Global.console;
  $=Global.jQuery;
- Date=Global.Date;
  Client.Main=function()
  {
   var newName,nameAlreadyUsed,nameInvalid,checkboxStatus,a,p,p$1,p$2,t,p$3,p$4,p$5,$1,c,$2,ti,r,p$6;
@@ -460,7 +460,7 @@ if (!console) {
   {
    if(!Strings.IsNullOrEmpty(e.Vars.Hole("name").Get()))
     {
-     Client.People().Append(Person.New(newName.Get()));
+     Client.People().Append(Person.New(newName.Get(),Date.now()));
      newName.Set("");
     }
   }
@@ -485,14 +485,30 @@ if (!console) {
      $0:"listcontainer",
      $1:Doc.Convert(function(person)
      {
-      var p$7,$3,c$1,r$1,p$8;
+      var p$7,t$1,$3,c$1,$4,ti$1,r$1,p$8;
       function f$1(a$1)
       {
        Client.People().RemoveByKey(person.Name);
       }
-      return(p$7=($3=[null],[$3,(c$1=Guid.NewGuid(),Global.String(c$1)),new T({
+      return(p$7=(t$1=($3=(c$1=Guid.NewGuid(),Global.String(c$1)),($4=new T({
        $:1,
        $0:{
+        $:1,
+        $0:"name",
+        $1:person.Name
+       },
+       $1:T.Empty
+      }),[[null],$3,new T({
+       $:1,
+       $0:{
+        $:1,
+        $0:"created",
+        $1:(new Date(person.Created)).toLocaleDateString()
+       },
+       $1:$4
+      })])),[t$1[0],t$1[1],new T({
+       $:1,
+       $0:(ti$1=t$1[0],{
         $:5,
         $0:"delete",
         $1:true,
@@ -501,22 +517,14 @@ if (!console) {
          return function(ev)
          {
           return f$1({
-           Vars:$3[0],
+           Vars:ti$1[0],
            Target:el,
            Event:ev
           });
          };
         }
-       },
-       $1:new T({
-        $:1,
-        $0:{
-         $:1,
-         $0:"name",
-         $1:person.Name
-        },
-        $1:T.Empty
-       })
+       }),
+       $1:t$1[2]
       })]),(r$1=p$7[0],(p$8=Handler.CompleteHoles(p$7[1],p$7[2],[]),(r$1[0]=new TemplateInstance.New(p$8[1],WebSharperSPA_Templates.listitem(p$8[0])),r$1[0])))).get_Doc();
      },Client.People().v)
     },
@@ -551,7 +559,7 @@ if (!console) {
     $0:"attrcross",
     $1:AttrModule.DynamicClassPred("hidden",View.Map2(function($3,$4)
     {
-     return!$3&&!$4;
+     return!($3||$4);
     },nameInvalid,nameAlreadyUsed))
    },
    $1:p$4[2]
@@ -729,7 +737,7 @@ if (!console) {
        if(a instanceof Global.Array&&b instanceof Global.Array)
         return Unchecked.arrayEquals(a,b);
        else
-        if(a instanceof Global.Date&&b instanceof Global.Date)
+        if(a instanceof Date&&b instanceof Date)
          return Unchecked.dateEquals(a,b);
         else
          {
@@ -858,7 +866,7 @@ if (!console) {
           if(a instanceof Global.Array&&b instanceof Global.Array)
            $2=Unchecked.compareArrays(a,b);
           else
-           if(a instanceof Global.Date&&b instanceof Global.Date)
+           if(a instanceof Date&&b instanceof Date)
             $2=Unchecked.compareDates(a,b);
            else
             {
@@ -935,10 +943,11 @@ if (!console) {
  T.Empty=new T({
   $:0
  });
- Person.New=function(Name)
+ Person.New=function(Name,Created)
  {
   return{
-   Name:Name
+   Name:Name,
+   Created:Created
   };
  };
  Arrays.length=function(arr)
@@ -1547,11 +1556,12 @@ if (!console) {
  };
  SC$1.$cctor=function()
  {
+  var c,c$1;
   SC$1.$cctor=Global.ignore;
   SC$1.People=ListModel.Create(function(person)
   {
    return person.Name;
-  },List.ofArray([Person.New("John"),Person.New("Paul")]));
+  },List.ofArray([Person.New("John",(c=Date.now(),c+-2*86400000)),Person.New("Paul",(c$1=Date.now(),c$1+-12*86400000))]));
  };
  Strings.IsNullOrEmpty=function(x)
  {

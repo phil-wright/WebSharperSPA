@@ -12,20 +12,18 @@ open System
 [<JavaScript>]
 module Client =
 
-    // The templates are loaded from the DOM, so you just can edit index.html
-    // and refresh your browser, no need to recompile unless you add or remove holes.
     type IndexTemplate = Template<"index.html", ClientLoad.FromDocument>
 
-    //let People = ListModel.FromSeq [ "John"; "Paul" ]
-
     [<NoComparison>]
-    type Person = { Name : string }
+    type Person = {
+        Name : string
+        Created : DateTime }
 
     let People =
         ListModel.Create (fun person -> person.Name)
             [
-                { Name = "John" }
-                { Name = "Paul" }
+                { Name = "John"; Created = DateTime.Now.AddDays(-2.0) }
+                { Name = "Paul"; Created = DateTime.Now.AddDays(-12.0) }
             ]
 
     [<SPAEntryPoint>]
@@ -46,6 +44,7 @@ module Client =
                 People.View.DocSeqCached (fun (person : Person) ->
                     IndexTemplate.ListItem()
                         .Name(person.Name)
+                        .Created(person.Created.ToShortDateString())
                         .Delete(fun _ -> People.RemoveByKey person.Name)
                         .Doc()
                 )
@@ -53,11 +52,11 @@ module Client =
             .Name(newName)
             .AttrNameMessage(Attr.ClassPred "hidden" (not nameAlreadyUsed.V))
             .AttrTick(Attr.ClassPred "hidden" (nameInvalid.V || nameAlreadyUsed.V))
-            .AttrCross(Attr.ClassPred "hidden" (not nameInvalid.V && not nameAlreadyUsed.V))
+            .AttrCross(Attr.ClassPred "hidden" (not (nameInvalid.V || nameAlreadyUsed.V)))
             .AttrAdd(Attr.DynamicProp "disabled" nameInvalid)
             .Add(fun e ->
                 if not (isNameInvalid e.Vars.Name.Value) then
-                    People.Add { Name = newName.Value }
+                    People.Add { Name = newName.Value; Created = DateTime.Now }
                     newName.Value <- ""
             )
             .Checkbox(checkboxStatus)
